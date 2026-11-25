@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aaaiiicerol - Projetos open-source para Linux: players de mídia, downloaders, utilitários. Feito em Rust, Python, Tauri.">
+  <meta name="theme-color" content="#1a1b26">
+  <title>Aaaiiicerol • Projetos Linux & Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1b26;
+      --bg-elevated: #24283b;
+      --fg: #c0caf5;
+      --fg-muted: #787c99;
+      --accent: #7aa2f7;
+      --accent-hover: #9ec5ff;
+      --border: #2f334d;
+      --card-bg: #1f2335;
+      --green: #9ece6a;
+      --orange: #ff9e64;
+      --red: #f7768e;
+      --purple: #bb9af7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-hover); }
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; justify-content: space-between; }
+    .avatar { width: 96px; height: 96px; border-radius: 16px; background: linear-gradient(135deg, var(--accent), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; color: var(--bg); flex-shrink: 0; overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+    .title-group h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 700; letter-spacing: -0.02em; }
+    .title-group .tagline { color: var(--fg-muted); font-size: clamp(14px, 2.5vw, 16px); margin-top: 4px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--fg-muted); }
+    .badge.youtube { border-color: #ff0000; color: #ff4444; }
+    .badge.github { border-color: var(--accent); color: var(--accent); }
+    main { flex: 1; padding: 48px 0; }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .project-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+    .project-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+    .project-thumb { aspect-ratio: 16/10; overflow: hidden; background: var(--bg-elevated); }
+    .project-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .project-card:hover .project-thumb img { transform: scale(1.03); }
+    .project-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .project-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .project-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--fg-muted); font-weight: 500; }
+    .tag.rust { border-color: #dea584; color: #dea584; }
+    .tag.python { border-color: #a6dafc; color: #a6dafc; }
+    .tag.tauri { border-color: #78dce8; color: #78dce8; }
+    .tag.qt { border-color: #89dd9d; color: #89dd9d; }
+    .tag.appimage { border-color: var(--fg-muted); color: var(--fg-muted); }
+    .project-desc { color: var(--fg-muted); font-size: 14px; line-height: 1.5; flex: 1; margin: 12px 0; }
+    .project-links { display: flex; gap: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { background: var(--accent-hover); color: var(--bg); }
+    .btn-secondary { background: transparent; border-color: var(--border); color: var(--fg); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 48px 0; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-value { font-size: 28px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+    .stat-label { color: var(--fg-muted); font-size: 13px; margin-top: 4px; }
+    footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--fg-muted); font-size: 13px; }
+    footer a { color: var(--fg-muted); }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 640px) {
+      .header-content { flex-direction: column; text-align: center; }
+      .badges { justify-content: center; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="avatar" aria-hidden="true"><picture><source srcset="assets/avatar.webp" type="image/webp"><img src="assets/avatar.png" alt="Aaaiiicerol" loading="eager"></picture></div>
+        <div class="title-group">
+          <h1>Aaaiiicerol</h1>
+          <p class="tagline">🎮 Games &nbsp;•&nbsp; 🐧 Linux &nbsp;•&nbsp; 🎬 Vídeos</p>
+          <p style="margin-top:8px; color:var(--fg-muted); font-size:14px;">Faço vídeos sobre games e Linux e crio programinhas para deixar a vida no Linux mais fácil.</p>
+          <div class="badges">
+            <a href="https://www.youtube.com/@Aaaiiiceroll" target="_blank" rel="noopener" class="badge youtube">▶ YouTube @aaaiiiceroll</a>
+            <a href="https://github.com/aaaiiicerol" target="_blank" rel="noopener" class="badge github">⌘ GitHub</a>
+            <span class="badge">📦 AppImage</span>
+            <span class="badge">🦀 Rust</span>
+            <span class="badge">🐍 Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="section-title">Projetos em Destaque</h2>
+
+      <div class="projects-grid">
+        <!-- Zek Music -->
+        <article class="project-card">
+          <div class="project-thumb">
+            <a href="projects/zek-music.html"><picture><source srcset="assets/zek-music.webp" type="image/webp"><img src="assets/zek-music.png" alt="Zek Music - Interface do player" loading="lazy"></picture></a>
+          </div>
+          <div class="project-body">
+            <div class="project-header">
+              <div class="project-icon">🎵</div>
+              <h3 style="flex:1; font-size:18px;">Zek Music</h3>
+            </div>
+            <p class="project-desc">Player de músicas leve e minimalista: cada pasta vira uma playlist automaticamente. Feito em Rust com foco em performance e simplicidade.</p>
+            <div class="project-meta">
+              <span class="tag rust">Rust</span>
+              <span class="tag appimage">AppImage</span>
+              <span class="tag">Linux</span>
+              <span class="tag">Windows</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener" class="btn btn-primary">Ver no GitHub</a>
+              <a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ZekFlix -->
+        <article class="project-card">
+          <div class="project-thumb">
+            <a href="projects/zekflix.html"><picture><source srcset="assets/zekflix.webp" type="image/webp"><source srcset="assets/zekflix.jpg" type="image/jpeg"><img src="assets/zekflix.png" alt="ZekFlix - Interface estilo Netflix" loading="lazy"></picture></a>
+          </div>
+          <div class="project-body">
+            <div class="project-header">
+              <div class="project-icon">🎬</div>
+              <h3 style="flex:1; font-size:18px;">ZekFlix</h3>
+            </div>
+            <p class="project-desc">Seus filmes e séries locais organizados em uma interface estilo Netflix. Tauri + Rust, com metadados automáticos, legendas e continuação de onde parou.</p>
+            <div class="project-meta">
+              <span class="tag rust">Rust</span>
+              <span class="tag tauri">Tauri</span>
+              <span class="tag appimage">AppImage</span>
+              <span class="tag">Linux</span>
+              <span class="tag">Windows</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/aaaiiicerol/zekflix" target="_blank" rel="noopener" class="btn btn-primary">Ver no GitHub</a>
+              <a href="https://github.com/aaaiiicerol/zekflix/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Zek Download -->
+        <article class="project-card">
+          <div class="project-thumb">
+            <a href="projects/zek-download.html"><picture><source srcset="assets/zek-download.webp" type="image/webp"><img src="assets/zek-download.png" alt="Zek Download - Interface do downloader" loading="lazy"></picture></a>
+          </div>
+          <div class="project-body">
+            <div class="project-header">
+              <div class="project-icon">📥</div>
+              <h3 style="flex:1; font-size:18px;">Zek Download</h3>
+            </div>
+            <p class="project-desc">Baixe vídeos e áudio de milhares de sites (YouTube, Twitter, Vimeo, etc.) com interface simples. Usa yt-dlp por baixo dos panos, com auto-atualização integrada.</p>
+            <div class="project-meta">
+              <span class="tag rust">Rust</span>
+              <span class="tag python">Python</span>
+              <span class="tag appimage">AppImage</span>
+              <span class="tag">Linux</span>
+              <span class="tag">Windows</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/aaaiiicerol/zek-download-windows" target="_blank" rel="noopener" class="btn btn-primary">Ver no GitHub (Rust)</a>
+              <a href="https://github.com/aaaiiicerol/zek-download-windows/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Luz do Teclado -->
+        <article class="project-card">
+          <div class="project-thumb">
+            <a href="projects/luz-teclado.html"><picture><source srcset="assets/luz-teclado.webp" type="image/webp"><img src="assets/luz-teclado.png" alt="Luz do Teclado - Interface" loading="lazy"></picture></a>
+          </div>
+          <div class="project-body">
+            <div class="project-header">
+              <div class="project-icon">💡</div>
+              <h3 style="flex:1; font-size:18px;">Luz do Teclado</h3>
+            </div>
+            <p class="project-desc">Liga e desliga a luz de teclados genéricos no Linux sem precisar abrir terminal. Pequeno, direto ao ponto, distribuído como AppImage.</p>
+            <div class="project-meta">
+              <span class="tag python">Python</span>
+              <span class="tag qt">Qt</span>
+              <span class="tag appimage">AppImage</span>
+              <span class="tag">Linux</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/aaaiiicerol/luz-teclado" target="_blank" rel="noopener" class="btn btn-primary">Ver no GitHub</a>
+              <a href="https://github.com/aaaiiicerol/luz-teclado/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value mono" id="stat-repos">—</div>
+          <div class="stat-label">Repositórios Públicos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value mono" id="stat-stars">—</div>
+          <div class="stat-label">Estrelas Totais</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value mono" id="stat-forks">—</div>
+          <div class="stat-label">Forks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value mono" id="stat-followers">—</div>
+          <div class="stat-label">Seguidores</div>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <h2 class="section-title">Tecnologias</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+        <span class="tag rust">Rust</span>
+        <span class="tag python">Python</span>
+        <span class="tag">Bash</span>
+        <span class="tag tauri">Tauri</span>
+        <span class="tag qt">Qt/QML</span>
+        <span class="tag">GTK</span>
+        <span class="tag" style="border-color:#ff0000; color:#ff6666;">yt-dlp</span>
+        <span class="tag" style="border-color:#00d9e2; color:#00d9e2;">ffmpeg</span>
+        <span class="tag" style="border-color:#666; color:#999;">mpv</span>
+        <span class="tag appimage">AppImage</span>
+        <span class="tag" style="border-color:#2088ff; color:#58a6ff;">GitHub Actions</span>
+      </div>
+
+      <p style="color:var(--fg-muted); font-size:14px;">Todos os projetos são open-source (licença MIT) e distribuídos como AppImage — baixe, dê permissão de execução (<code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">chmod +x</code>) e rode.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Feito com 💙 por <a href="https://github.com/aaaiiicerol">Aaaiiicerol</a> · Hospedado no <a href="https://pages.github.com/">GitHub Pages</a></p>
+      <p style="margin-top:8px;"><a href="https://www.youtube.com/@Aaaiiiceroll" target="_blank" rel="noopener">YouTube @aaaiiiceroll</a> · Sugestões? Abra uma <a href="https://github.com/aaaiiicerol/aaaiiicerol/issues">issue</a> no perfil.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Fetch GitHub stats
+    async function loadStats() {
+      try {
+        const res = await fetch('https://api.github.com/users/aaaiiicerol');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('stat-repos').textContent = data.public_repos.toLocaleString();
+          document.getElementById('stat-followers').textContent = data.followers.toLocaleString();
+        }
+        // Get stars across repos
+        const reposRes = await fetch('https://api.github.com/users/aaaiiicerol/repos?per_page=100');
+        if (reposRes.ok) {
+          const repos = await reposRes.json();
+          const stars = repos.reduce((sum, r) => sum + r.stargazers_count, 0);
+          const forks = repos.reduce((sum, r) => sum + r.forks_count, 0);
+          document.getElementById('stat-stars').textContent = stars.toLocaleString();
+          document.getElementById('stat-forks').textContent = forks.toLocaleString();
+        }
+      } catch (e) {
+        console.log('Stats unavailable:', e);
+      }
+    }
+    loadStats();
+  </script>
+</body>
+</html>

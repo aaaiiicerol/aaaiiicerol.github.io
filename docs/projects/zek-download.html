@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Zek Download - Baixe vídeos e áudio de milhares de sites (YouTube, Twitter, Vimeo, etc.) com interface simples. Usa yt-dlp, auto-atualização integrada.">
+  <title>Zek Download • Aaaiiicerol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#1a1b26; --bg-elevated:#24283b; --fg:#c0caf5; --fg-muted:#787c99; --accent:#7aa2f7; --accent-hover:#9ec5ff; --border:#2f334d; --card-bg:#1f2335; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
+    .mono { font-family:'JetBrains Mono',monospace; }
+    a { color:var(--accent); text-decoration:none; transition:color .2s; }
+    a:hover { color:var(--accent-hover); }
+    .container { width:100%; max-width:900px; margin:0 auto; padding:0 24px; }
+    header { padding:48px 0 24px; border-bottom:1px solid var(--border); text-align:center; }
+    .back-link { display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--fg-muted); margin-bottom:24px; }
+    .back-link:hover { color:var(--accent); }
+    h1 { font-size:clamp(28px,5vw,42px); font-weight:700; letter-spacing:-0.02em; }
+    .subtitle { color:var(--fg-muted); margin-top:8px; font-size:clamp(16px,2.5vw,18px); }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
+    .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500; background:var(--bg-elevated); border:1px solid var(--border); color:var(--fg-muted); }
+    .badge.rust { border-color:#dea584; color:#dea584; }
+    .badge.python { border-color:#a6dafc; color:#a6dafc; }
+    .badge.appimage { border-color:var(--fg-muted); color:var(--fg-muted); }
+    main { flex:1; padding:48px 0; }
+    .hero-img { border-radius:16px; overflow:hidden; margin-bottom:32px; border:1px solid var(--border); background:var(--bg-elevated); }
+    .hero-img img { width:100%; height:auto; display:block; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:48px; }
+    .card { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:24px; }
+    .card h3 { font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .card ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .card li { display:flex; align-items:center; gap:8px; color:var(--fg-muted); font-size:14px; }
+    .card li::before { content:'▸'; color:var(--accent); font-size:12px; }
+    .section { margin-bottom:48px; }
+    .section h2 { font-size:22px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+    .section h2::after { content:''; flex:1; height:1px; background:var(--border); }
+    .btn-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:600; transition:all .2s; border:1px solid transparent; }
+    .btn-primary { background:var(--accent); color:var(--bg); }
+    .btn-primary:hover { background:var(--accent-hover); }
+    .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
+    .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .feature { display:flex; gap:12px; padding:16px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; }
+    .feature-icon { width:40px; height:40px; border-radius:8px; background:var(--bg-elevated); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .feature-text h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+    .feature-text p { font-size:13px; color:var(--fg-muted); }
+    .version-card { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:16px; }
+    .vcard { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:20px; }
+    .vcard h4 { font-size:15px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .vcard ul { list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--fg-muted); }
+    .vcard li::before { content:'▸'; color:var(--accent); margin-right:8px; font-size:11px; }
+    footer { padding:32px 0; border-top:1px solid var(--border); text-align:center; color:var(--fg-muted); font-size:13px; }
+    @media (max-width:640px) { .btn-row { flex-direction:column; } .btn { width:100%; justify-content:center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="../index.html" class="back-link">← Voltar ao início</a>
+      <h1>Zek Download</h1>
+      <p class="subtitle">Baixe vídeos/áudio de milhares de sites com interface simples</p>
+      <div class="badges">
+        <span class="badge rust">Rust (Windows)</span>
+        <span class="badge python">Python (Linux)</span>
+        <span class="badge appimage">AppImage</span>
+        <span class="badge">Linux</span>
+        <span class="badge">Windows</span>
+        <span class="badge">MIT License</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="hero-img">
+        <picture>
+          <source srcset="../assets/zek-download.webp" type="image/webp">
+          <img src="../assets/zek-download.png" alt="Zek Download - Interface do downloader com URL input e opções de qualidade" loading="lazy">
+        </picture>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>📦 Download (Rust • Windows/Linux)</h3>
+          <ul>
+            <li><a href="https://github.com/aaaiiicerol/zek-download-windows/releases/latest" target="_blank" rel="noopener">zek-download-windows releases</a></li>
+            <li>AppImage Linux + .exe Windows (portable/installer)</li>
+            <li>Auto-atualização via GitHub Releases</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>📦 Download (Python • Linux)</h3>
+          <ul>
+            <li><a href="https://github.com/aaaiiicerol/zek-download/releases/latest" target="_blank" rel="noopener">zek-download releases</a></li>
+            <li>Pacotes .deb / .rpm / AppImage</li>
+            <li>Mesmo backend yt-dlp, UI em Qt</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🔗 Links</h3>
+          <ul>
+            <li><a href="https://github.com/aaaiiicerol/zek-download-windows" target="_blank" rel="noopener">Repo Rust (principal)</a></li>
+            <li><a href="https://github.com/aaaiiicerol/zek-download" target="_blank" rel="noopener">Repo Python (legacy)</a></li>
+            <li><a href="https://github.com/aaaiiicerol/zek-download-windows/issues" target="_blank" rel="noopener">Issues / Sugestões</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>✨ Funcionalidades</h2>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-text">
+              <h4>1000+ sites suportados</h4>
+              <p>YouTube, Twitter/X, Instagram, TikTok, Vimeo, Twitch, Reddit, Facebook, SoundCloud, Bandcamp e centenas de outros via yt-dlp.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-text">
+              <h4>Escolha de qualidade</h4>
+              <p>Seleciona resolução (4K, 1080p, 720p...), só áudio (MP3, M4A, OPUS), ou melhor disponível. Preview de formatos antes de baixar.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🔄</div>
+            <div class="feature-text">
+              <h4>Auto-atualização</h4>
+              <p>Verifica nova versão no GitHub ao abrir, baixa e substitui o binário sozinho (Rust). Python version avisa via UI.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📋</div>
+            <div class="feature-text">
+              <h4>Cola e baixa</h4>
+              <p>Detecta URL no clipboard automaticamente, cola com Ctrl+V, Enter para iniciar. Histórico de downloads recentes.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-text">
+              <h4>Opções avançadas</h4>
+              <p>Cookies do navegador, proxy, rate limit, sponsorblock, embed thumbnail, metadata, capítulos, playlists completas.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📦</div>
+            <div class="feature-text">
+              <h4>Zero dependências</h4>
+              <p>AppImage única (Rust) ou .deb/.rpm (Python) — yt-dlp e ffmpeg embarcados. Roda offline após primeiro uso.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🔀 Duas versões — qual usar?</h2>
+        <div class="version-card">
+          <div class="vcard">
+            <h4>🦀 Versão Rust <span style="font-size:11px; color:var(--fg-muted); font-weight:400;">(zek-download-windows)</span></h4>
+            <ul>
+              <li><strong>Recomendada</strong> para novos usuários</li>
+              <li>Binário único, mais rápido, menor</li>
+              <li>Windows: installer NSIS + portable</li>
+              <li>Linux: AppImage nativa</li>
+              <li>Auto-update real (substitui binário)</li>
+              <li>Desenvolvimento ativo</li>
+            </ul>
+          </div>
+          <div class="vcard">
+            <h4>🐍 Versão Python <span style="font-size:11px; color:var(--fg-muted); font-weight:400;">(zek-download)</span></h4>
+            <ul>
+              <li>Legacy / manutenção apenas</li>
+              <li>UI em PyQt6</li>
+              <li>Pacotes .deb / .rpm / AppImage</li>
+              <li>Mesmo backend yt-dlp</li>
+              <li>Útil se precisar customizar em Python</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🛠 Stack técnico</h2>
+        <p style="color:var(--fg-muted); margin-bottom:16px;">
+          <strong>Rust version:</strong> Rust (tauri, reqwest, serde, self_update) + yt-dlp embedded + ffmpeg · <strong>Python version:</strong> Python 3.10+, PyQt6, yt-dlp, ffmpeg · <strong>CI/CD:</strong> GitHub Actions (build matrix Linux/Windows, assina artifacts, publica releases)
+        </p>
+        <div class="btn-row">
+          <a href="https://github.com/aaaiiicerol/zek-download-windows" target="_blank" rel="noopener" class="btn btn-primary">Ver código (Rust)</a>
+          <a href="https://github.com/aaaiiicerol/zek-download-windows/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar Rust version</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>⚠️ Aviso legal</h2>
+        <p style="color:var(--fg-muted); font-size:14px;">Esta ferramenta é para uso pessoal e educacional. Respeite os Termos de Serviço dos sites e direitos autorais. O autor não se responsabiliza pelo uso indevido. Use por sua conta e risco.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Parte do portfólio <a href="https://github.com/aaaiiicerol">Aaaiiicerol</a> · <a href="../index.html">← Todos os projetos</a></p>
+    </div>
+  </footer>
+</body>
+</html>

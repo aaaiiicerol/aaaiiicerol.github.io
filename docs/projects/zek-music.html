@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Zek Music - Player de músicas leve para Linux e Windows onde cada pasta vira uma playlist. Feito em Rust, distribuído como AppImage.">
+  <title>Zek Music • Aaaiiicerol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#1a1b26; --bg-elevated:#24283b; --fg:#c0caf5; --fg-muted:#787c99; --accent:#7aa2f7; --accent-hover:#9ec5ff; --border:#2f334d; --card-bg:#1f2335; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
+    .mono { font-family:'JetBrains Mono',monospace; }
+    a { color:var(--accent); text-decoration:none; transition:color .2s; }
+    a:hover { color:var(--accent-hover); }
+    .container { width:100%; max-width:900px; margin:0 auto; padding:0 24px; }
+    header { padding:48px 0 24px; border-bottom:1px solid var(--border); text-align:center; }
+    .back-link { display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--fg-muted); margin-bottom:24px; }
+    .back-link:hover { color:var(--accent); }
+    h1 { font-size:clamp(28px,5vw,42px); font-weight:700; letter-spacing:-0.02em; }
+    .subtitle { color:var(--fg-muted); margin-top:8px; font-size:clamp(16px,2.5vw,18px); }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
+    .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500; background:var(--bg-elevated); border:1px solid var(--border); color:var(--fg-muted); }
+    .badge.rust { border-color:#dea584; color:#dea584; }
+    .badge.tauri { border-color:#78dce8; color:#78dce8; }
+    .badge.appimage { border-color:var(--fg-muted); color:var(--fg-muted); }
+    main { flex:1; padding:48px 0; }
+    .hero-img { border-radius:16px; overflow:hidden; margin-bottom:32px; border:1px solid var(--border); background:var(--bg-elevated); }
+    .hero-img img { width:100%; height:auto; display:block; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-bottom:48px; }
+    .card { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:24px; }
+    .card h3 { font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .card ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .card li { display:flex; align-items:center; gap:8px; color:var(--fg-muted); font-size:14px; }
+    .card li::before { content:'▸'; color:var(--accent); font-size:12px; }
+    .section { margin-bottom:48px; }
+    .section h2 { font-size:22px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+    .section h2::after { content:''; flex:1; height:1px; background:var(--border); }
+    .btn-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:600; transition:all .2s; border:1px solid transparent; }
+    .btn-primary { background:var(--accent); color:var(--bg); }
+    .btn-primary:hover { background:var(--accent-hover); }
+    .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
+    .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .feature { display:flex; gap:12px; padding:16px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; }
+    .feature-icon { width:40px; height:40px; border-radius:8px; background:var(--bg-elevated); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .feature-text h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+    .feature-text p { font-size:13px; color:var(--fg-muted); }
+    footer { padding:32px 0; border-top:1px solid var(--border); text-align:center; color:var(--fg-muted); font-size:13px; }
+    @media (max-width:640px) { .btn-row { flex-direction:column; } .btn { width:100%; justify-content:center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="../index.html" class="back-link">← Voltar ao início</a>
+      <h1>Zek Music</h1>
+      <p class="subtitle">Player de músicas leve: cada pasta vira uma playlist</p>
+      <div class="badges">
+        <span class="badge rust">Rust</span>
+        <span class="badge appimage">AppImage</span>
+        <span class="badge">Linux</span>
+        <span class="badge">Windows</span>
+        <span class="badge">MIT License</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="hero-img">
+        <picture>
+          <source srcset="../assets/zek-music.webp" type="image/webp">
+          <img src="../assets/zek-music.png" alt="Zek Music - Interface do player mostrando biblioteca organizada por pastas" loading="lazy">
+        </picture>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>📦 Download</h3>
+          <ul>
+            <li><a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener">Última release (AppImage)</a></li>
+            <li>Linux: <code class="mono">chmod +x zek-music-*.AppImage && ./zek-music-*.AppImage</code></li>
+            <li>Windows: portable <code class="mono">.exe</code> disponível</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🔗 Links</h3>
+          <ul>
+            <li><a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener">Repositório no GitHub</a></li>
+            <li><a href="https://github.com/aaaiiicerol/zek-music/issues" target="_blank" rel="noopener">Reportar bug / Sugerir feature</a></li>
+            <li><a href="https://github.com/aaaiiicerol/zek-music/blob/main/LICENSE" target="_blank" rel="noopener">Licença MIT</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>✨ Funcionalidades</h2>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">📁</div>
+            <div class="feature-text">
+              <h4>Pastas = Playlists</h4>
+              <p>Organize sua música em pastas; cada uma vira uma playlist automática — sem cadastro, sem banco de dados.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-text">
+              <h4>Leve e rápido</h4>
+              <p>Feito em Rust, inicialização instantânea, uso mínimo de RAM. Roda bem até em hardware antigo.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎨</div>
+            <div class="feature-text">
+              <h4>Interface limpa</h4>
+              <p>Foco na música: navegação por teclado, busca rápida, capas de álbum, modo compacto.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🔧</div>
+            <div class="feature-text">
+              <h4>Zero config</h4>
+              <p>Aponta para a pasta de músicas e pronto. Suporta MP3, FLAC, OGG, M4A, WAV.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🌙</div>
+            <div class="feature-text">
+              <h4>Tema escuro nativo</h4>
+              <p>Respeita preferência do sistema, cores suaves para sessões noturnas longas.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📦</div>
+            <div class="feature-text">
+              <h4>AppImage única</h4>
+              <p>Um arquivo, roda em qualquer distro (Debian, Fedora, Arch, openSUSE, Ubuntu...).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🛠 Como funciona</h2>
+        <p style="color:var(--fg-muted); margin-bottom:16px;">O Zek Music usa <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">rodio</code> para reprodução de áudio e escaneia recursivamente a pasta escolhida, montando a biblioteca em memória. Sem indexação pesada, sem daemon rodando em background.</p>
+        <div class="btn-row">
+          <a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener" class="btn btn-primary">Ver código no GitHub</a>
+          <a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar agora</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>📸 Mais capturas</h2>
+        <p style="color:var(--fg-muted);">Adicione mais screenshots aqui conforme o projeto evolui.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Parte do portfólio <a href="https://github.com/aaaiiicerol">Aaaiiicerol</a> · <a href="../index.html">← Todos os projetos</a></p>
+    </div>
+  </footer>
+</body>
+</html>
