@@ -45,6 +45,8 @@
     .btn-primary:hover { background:linear-gradient(135deg, var(--accent-hover), #a855f7); color:#fff; }
     .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
     .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .btn-msft { background:linear-gradient(135deg, #0d7fd6, #0a5ea0); color:#fff; }
+    .btn-msft:hover { background:linear-gradient(135deg, #2e97e6, #0d7fd6); color:#fff; }
     .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
     .feature { display:flex; gap:12px; padding:16px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; }
     .feature-icon { width:40px; height:40px; border-radius:8px; background:var(--bg-elevated); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
@@ -68,6 +70,7 @@
         <span class="badge">.rpm</span>
         <span class="badge">Linux</span>
         <span class="badge">Windows</span>
+        <a href="https://apps.microsoft.com/detail/9nr01dh36226" target="_blank" rel="noopener" class="badge" style="border-color:#0d7fd6; color:#4db8ff;">🟦 Microsoft Store</a>
         <span class="badge">MIT</span>
       </div>
     </div>
@@ -86,7 +89,8 @@
         <div class="card">
           <h3>📦 Instalação</h3>
           <ul>
-            <li><a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener">Ver última release</a></li>
+            <li><a href="https://apps.microsoft.com/detail/9nr01dh36226" target="_blank" rel="noopener">🟦 Microsoft Store (Windows)</a></li>
+            <li><a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener">Ver última release no GitHub</a></li>
             <li>Linux: AppImage, <code class="mono">.deb</code> ou <code class="mono">.rpm</code></li>
             <li>AppImage: <code class="mono">chmod +x ZekMusic-*.AppImage && ./ZekMusic-*.AppImage</code></li>
             <li>Windows: instalador (<code class="mono">ZekMusic-Setup.exe</code>) ou versão portátil (.zip)</li>
@@ -124,8 +128,9 @@
         <h2>🛠 Como funciona</h2>
         <p style="color:var(--fg-muted); margin-bottom:16px;">O Zek Music é escrito em <strong>Rust</strong> com interface em <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">egui</code>. Você aponta para uma pasta base e o programa varre ela recursivamente em uma thread separada (mantendo a interface sempre responsiva), montando a biblioteca em memória. A pasta é monitorada — quando você cria, renomeia ou remove arquivos, as playlists se atualizam sozinhas. A reprodução roda em thread própria, então dá pra continuar tocando mesmo com a janela minimizada ou fechando.</p>
         <div class="btn-row">
-          <a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener" class="btn btn-primary">Ver código no GitHub</a>
-          <a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar agora</a>
+          <a href="https://apps.microsoft.com/detail/9nr01dh36226" target="_blank" rel="noopener" class="btn btn-msft">🟦 Microsoft Store</a>
+          <a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar no GitHub</a>
+          <a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener" class="btn btn-secondary">Ver código</a>
         </div>
       </div>
     </div>
