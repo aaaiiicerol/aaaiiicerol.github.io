@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Luz do Teclado - Liga e desliga a luz de teclados genéricos no Linux sem terminal. Pequeno, direto, AppImage.">
+  <meta name="description" content="Luz do Teclado - Liga e desliga a luz de fundo (Scroll Lock) de teclados genéricos no Linux com dois cliques, sem terminal. Feito em Rust, pacotes .deb/.rpm/AppImage.">
   <title>Luz do Teclado • Aaaiiicerol</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#1a1b26; --bg-elevated:#24283b; --fg:#c0caf5; --fg-muted:#787c99; --accent:#7aa2f7; --accent-hover:#9ec5ff; --border:#2f334d; --card-bg:#1f2335; }
+    :root { --bg:#08060e; --bg-elevated:#150f22; --fg:#ece9f7; --fg-muted:#9a92b8; --accent:#a855f7; --accent-hover:#c084fc; --border:#2a2040; --card-bg:#100c1a; --purple:#7c3aed; }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
+    body { font-family:'Space Grotesk',sans-serif; background: radial-gradient(700px 400px at 80% -5%, rgba(168,85,247,0.20), transparent 60%), radial-gradient(600px 400px at 0% 10%, rgba(124,58,237,0.16), transparent 60%), var(--bg); background-attachment: fixed; color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
     .mono { font-family:'JetBrains Mono',monospace; }
     a { color:var(--accent); text-decoration:none; transition:color .2s; }
     a:hover { color:var(--accent-hover); }
@@ -23,8 +23,7 @@
     .subtitle { color:var(--fg-muted); margin-top:8px; font-size:clamp(16px,2.5vw,18px); }
     .badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
     .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500; background:var(--bg-elevated); border:1px solid var(--border); color:var(--fg-muted); }
-    .badge.python { border-color:#a6dafc; color:#a6dafc; }
-    .badge.qt { border-color:#89dd9d; color:#89dd9d; }
+    .badge.rust { border-color:#dea584; color:#dea584; }
     .badge.appimage { border-color:var(--fg-muted); color:var(--fg-muted); }
     main { flex:1; padding:48px 0; }
     .hero-img { border-radius:16px; overflow:hidden; margin-bottom:32px; border:1px solid var(--border); background:var(--bg-elevated); }
@@ -40,8 +39,8 @@
     .section h2::after { content:''; flex:1; height:1px; background:var(--border); }
     .btn-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
     .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:600; transition:all .2s; border:1px solid transparent; }
-    .btn-primary { background:var(--accent); color:var(--bg); }
-    .btn-primary:hover { background:var(--accent-hover); }
+    .btn-primary { background:linear-gradient(135deg, var(--accent), var(--purple)); color:#fff; }
+    .btn-primary:hover { background:linear-gradient(135deg, var(--accent-hover), #a855f7); color:#fff; }
     .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
     .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
     .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
@@ -57,14 +56,15 @@
   <header>
     <div class="container">
       <a href="../index.html" class="back-link">← Voltar ao início</a>
-      <h1>Luz do Teclado</h1>
-      <p class="subtitle">Liga/desliga luz de teclados genéricos no Linux — sem terminal</p>
+      <h1>💡 Luz do Teclado</h1>
+      <p class="subtitle">Liga/desliga a luz de fundo (Scroll Lock) no Linux — sem terminal</p>
       <div class="badges">
-        <span class="badge python">Python</span>
-        <span class="badge qt">Qt/PySide6</span>
+        <span class="badge rust">Rust</span>
         <span class="badge appimage">AppImage</span>
+        <span class="badge">.deb</span>
+        <span class="badge">.rpm</span>
         <span class="badge">Linux</span>
-        <span class="badge">MIT License</span>
+        <span class="badge">MIT</span>
       </div>
     </div>
   </header>
@@ -74,25 +74,28 @@
       <div class="hero-img">
         <picture>
           <source srcset="../assets/luz-teclado.webp" type="image/webp">
-          <img src="../assets/luz-teclado.png" alt="Luz do Teclado - Interface simples com botão liga/desliga" loading="lazy">
+          <img src="../assets/luz-teclado.png" alt="Luz do Teclado - Janela simples com botões Ligar luz e Desligar luz" loading="lazy">
         </picture>
       </div>
 
       <div class="grid">
         <div class="card">
-          <h3>📦 Download</h3>
+          <h3>📦 Instalação</h3>
           <ul>
-            <li><a href="https://github.com/aaaiiicerol/luz-teclado/releases/latest" target="_blank" rel="noopener">Última release (AppImage)</a></li>
-            <li>Linux: <code class="mono">chmod +x luz-teclado-*.AppImage && ./luz-teclado-*.AppImage</code></li>
-            <li>Requer: <code class="mono">hidapi</code> (libhidapi-libusb0) no sistema</li>
+            <li><a href="https://github.com/aaaiiicerol/luz-teclado/releases/latest" target="_blank" rel="noopener">Ver última release</a></li>
+            <li><code class="mono">.deb</code> — Mint/Ubuntu/Debian: <code class="mono">sudo apt install ./Luz*.deb</code></li>
+            <li><code class="mono">.rpm</code> — Fedora/openSUSE: <code class="mono">sudo dnf install ./Luz*.rpm</code></li>
+            <li>AppImage — qualquer distro: <code class="mono">chmod +x Luz*.AppImage && ./Luz*.AppImage</code></li>
+            <li>AppImage no Mint/Ubuntu: <code class="mono">sudo apt install libfuse2</code></li>
           </ul>
         </div>
         <div class="card">
-          <h3>🔗 Links</h3>
+          <h3>⌨️ Linha de comando</h3>
           <ul>
-            <li><a href="https://github.com/aaaiiicerol/luz-teclado" target="_blank" rel="noopener">Repositório no GitHub</a></li>
-            <li><a href="https://github.com/aaaiiicerol/luz-teclado/issues" target="_blank" rel="noopener">Reportar bug / Sugerir feature</a></li>
-            <li><a href="https://github.com/aaaiiicerol/luz-teclado/blob/main/LICENSE" target="_blank" rel="noopener">Licença MIT</a></li>
+            <li><code class="mono">luz-teclado --on</code> · <code class="mono">--off</code></li>
+            <li><code class="mono">luz-teclado --toggle</code> · <code class="mono">--status</code></li>
+            <li>No AppImage: <code class="mono">./Luz*.AppImage --on</code></li>
+            <li>Ideal pra atalhos de teclado e scripts.</li>
           </ul>
         </div>
       </div>
@@ -100,56 +103,18 @@
       <div class="section">
         <h2>✨ Funcionalidades</h2>
         <div class="features">
-          <div class="feature">
-            <div class="feature-icon">💡</div>
-            <div class="feature-text">
-              <h4>Um clique</h4>
-              <p>Interface mínima: abre, clica no botão, luz acende/apaga. Fecha e fica na bandeja (opcional).</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">⌨️</div>
-            <div class="feature-text">
-              <h4>Teclados genéricos</h4>
-              <p>Funciona com teclados que usam HID standard (Redragon, Multilaser, generics, etc.).</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🚫</div>
-            <div class="feature-text">
-              <h4>Sem terminal</h4>
-              <p>Chega de <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">xset led</code> ou scripts udev. GUI amigável, pronto para uso.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">📦</div>
-            <div class="feature-text">
-              <h4>AppImage única</h4>
-              <p>Baixa, roda. Embarca Python + PySide6 + hidapi. Funciona em qualquer distro moderna.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🔧</div>
-            <div class="feature-text">
-              <h4>Detecção automática</h4>
-              <p>Lista dispositivos HID compatíveis, mostra vendor/product ID, permite selecionar qual controlar.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">💾</div>
-            <div class="feature-text">
-              <h4>Leve</h4>
-              <p>~15MB, abre em <1s, uso de RAM mínimo. Feito para ficar rodando na bandeja se quiser.</p>
-            </div>
-          </div>
+          <div class="feature"><div class="feature-icon">🖱️</div><div class="feature-text"><h4>Dois cliques</h4><p>Janela simples com "Ligar luz" e "Desligar luz". Nada de terminal nem comandos.</p></div></div>
+          <div class="feature"><div class="feature-icon">🚀</div><div class="feature-text"><h4>Liga ao iniciar</h4><p>Opção pra acender a luz sozinho quando você entra no computador.</p></div></div>
+          <div class="feature"><div class="feature-icon">📌</div><div class="feature-text"><h4>Ícone na bandeja</h4><p>Ative "Continuar na bandeja ao fechar" e controle a luz sem abrir a janela.</p></div></div>
+          <div class="feature"><div class="feature-icon">📋</div><div class="feature-text"><h4>Copiar info de suporte</h4><p>Gera um texto com sua distro e os LEDs do teclado — perfeito pra colar num comentário ou numa issue.</p></div></div>
+          <div class="feature"><div class="feature-icon">🔐</div><div class="feature-text"><h4>Remover permissão</h4><p>Desfaz a regra udev direto pela janela, quando quiser.</p></div></div>
+          <div class="feature"><div class="feature-icon">📦</div><div class="feature-text"><h4>3 formatos</h4><p>.deb, .rpm ou AppImage — escolha o que combina com sua distro.</p></div></div>
         </div>
       </div>
 
       <div class="section">
         <h2>🛠 Como funciona</h2>
-        <p style="color:var(--fg-muted); margin-bottom:16px;">
-          Usa <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">hidapi</code> (via <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">hid</code> Python package) para enviar comandos HID feature report ao dispositivo. A maioria dos teclados "gamer" genéricos expõe o controle de LED via interface HID padrão (vendor request 0x09 / report ID variável). O app escaneia <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">/dev/hidraw*</code>, identifica teclados conhecidos por VID/PID e envia o pacote de toggle.
-        </p>
+        <p style="color:var(--fg-muted); margin-bottom:16px;">No Linux a luz de fundo de muitos teclados é controlada por um arquivo em <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">/sys/class/leds/…::scrolllock/brightness</code>, que só aceita escrita do administrador. O comando manual seria <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">echo 1 | sudo tee .../brightness</code>. O app faz isso por você: <strong>acha o LED sozinho</strong> (o número <code class="mono">inputN</code> muda de máquina pra máquina) e, <strong>na primeira execução, pede sua senha uma única vez</strong> pra criar a regra <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">/etc/udev/rules.d/99-luz-teclado.rules</code> — que libera a escrita <em>somente</em> no LED do Scroll Lock. Depois disso ele nunca mais pede senha, nem após reiniciar.</p>
         <div class="btn-row">
           <a href="https://github.com/aaaiiicerol/luz-teclado" target="_blank" rel="noopener" class="btn btn-primary">Ver código no GitHub</a>
           <a href="https://github.com/aaaiiicerol/luz-teclado/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar agora</a>
@@ -157,24 +122,12 @@
       </div>
 
       <div class="section">
-        <h2>⚙️ Requisitos do sistema</h2>
+        <h2>⚙️ Requisitos</h2>
         <ul style="color:var(--fg-muted); line-height:2; padding-left:20px;">
-          <li>Linux kernel 5.10+ (suporte hidraw)</li>
-          <li><code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">libhidapi-libusb0</code> instalado (ex: <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">sudo dnf install hidapi</code> / <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">sudo apt install libhidapi-libusb0</code>)</li>
-          <li>Permissão para acessar <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">/dev/hidraw*</code> (regra udev incluída no repo ou rode via <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">sudo</code> na primeira vez)</li>
+          <li>Linux com teclado que expõe o LED do Scroll Lock em <code class="mono">/sys/class/leds/</code></li>
+          <li>AppImage: <code class="mono">libfuse2</code> instalado (Mint/Ubuntu)</li>
+          <li>A senha de administrador é pedida <strong>uma única vez</strong>, só pra criar a regra udev</li>
         </ul>
-      </div>
-
-      <div class="section">
-        <h2>🎮 Teclados testados</h2>
-        <div style="display:flex; flex-wrap:wrap; gap:8px; color:var(--fg-muted); font-size:14px;">
-          <span class="badge">Redragon Kumara</span>
-          <span class="badge">Multilaser Warrior</span>
-          <span class="badge">Generic RGB KB</span>
-          <span class="badge">Havit KB</span>
-          <span class="badge">Outros HID-standard</span>
-        </div>
-        <p style="color:var(--fg-muted); margin-top:8px; font-size:13px;">Seu teclado não está na lista? Abra uma issue com <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">lsusb -v</code> e a gente adiciona.</p>
       </div>
     </div>
   </main>

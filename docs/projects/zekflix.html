@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ZekFlix - Seus filmes e séries locais em uma interface estilo Netflix. Tauri + Rust, metadados automáticos, legendas, continuação de onde parou.">
+  <meta name="description" content="ZekFlix - Seus filmes e séries locais em uma interface estilo Netflix. Feito em Python (PyQt6) com o player mpv, metadados via OMDb, Windows e Linux.">
   <title>ZekFlix • Aaaiiicerol</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#1a1b26; --bg-elevated:#24283b; --fg:#c0caf5; --fg-muted:#787c99; --accent:#7aa2f7; --accent-hover:#9ec5ff; --border:#2f334d; --card-bg:#1f2335; }
+    :root { --bg:#08060e; --bg-elevated:#150f22; --fg:#ece9f7; --fg-muted:#9a92b8; --accent:#a855f7; --accent-hover:#c084fc; --border:#2a2040; --card-bg:#100c1a; --purple:#7c3aed; }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
+    body { font-family:'Space Grotesk',sans-serif; background: radial-gradient(700px 400px at 80% -5%, rgba(168,85,247,0.20), transparent 60%), radial-gradient(600px 400px at 0% 10%, rgba(124,58,237,0.16), transparent 60%), var(--bg); background-attachment: fixed; color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
     .mono { font-family:'JetBrains Mono',monospace; }
     a { color:var(--accent); text-decoration:none; transition:color .2s; }
     a:hover { color:var(--accent-hover); }
@@ -23,7 +23,7 @@
     .subtitle { color:var(--fg-muted); margin-top:8px; font-size:clamp(16px,2.5vw,18px); }
     .badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
     .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500; background:var(--bg-elevated); border:1px solid var(--border); color:var(--fg-muted); }
-    .badge.rust { border-color:#dea584; color:#dea584; }
+    .badge.python { border-color:#a6dafc; color:#a6dafc; }
     .badge.tauri { border-color:#78dce8; color:#78dce8; }
     .badge.appimage { border-color:var(--fg-muted); color:var(--fg-muted); }
     main { flex:1; padding:48px 0; }
@@ -40,10 +40,11 @@
     .section h2::after { content:''; flex:1; height:1px; background:var(--border); }
     .btn-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
     .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:600; transition:all .2s; border:1px solid transparent; }
-    .btn-primary { background:var(--accent); color:var(--bg); }
-    .btn-primary:hover { background:var(--accent-hover); }
+    .btn-primary { background:linear-gradient(135deg, var(--accent), var(--purple)); color:#fff; }
+    .btn-primary:hover { background:linear-gradient(135deg, var(--accent-hover), #a855f7); color:#fff; }
     .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
     .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .note { background:var(--bg-elevated); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:8px; padding:16px; color:var(--fg-muted); font-size:14px; }
     .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
     .feature { display:flex; gap:12px; padding:16px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; }
     .feature-icon { width:40px; height:40px; border-radius:8px; background:var(--bg-elevated); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
@@ -57,15 +58,16 @@
   <header>
     <div class="container">
       <a href="../index.html" class="back-link">← Voltar ao início</a>
-      <h1>ZekFlix</h1>
+      <h1>🎬 ZekFlix</h1>
       <p class="subtitle">Seus filmes e séries locais em interface estilo Netflix</p>
       <div class="badges">
-        <span class="badge rust">Rust</span>
-        <span class="badge tauri">Tauri</span>
+        <span class="badge python">Python</span>
+        <span class="badge tauri">PyQt6</span>
+        <span class="badge" style="border-color:#666; color:#aaa;">mpv</span>
         <span class="badge appimage">AppImage</span>
         <span class="badge">Linux</span>
         <span class="badge">Windows</span>
-        <span class="badge">MIT License</span>
+        <span class="badge">MIT</span>
       </div>
     </div>
   </header>
@@ -76,17 +78,18 @@
         <picture>
           <source srcset="../assets/zekflix.webp" type="image/webp">
           <source srcset="../assets/zekflix.jpg" type="image/jpeg">
-          <img src="../assets/zekflix.png" alt="ZekFlix - Interface estilo Netflix com biblioteca de filmes e séries" loading="lazy">
+          <img src="../assets/zekflix.png" alt="ZekFlix - Interface escura estilo Netflix mostrando a biblioteca de filmes e séries" loading="lazy">
         </picture>
       </div>
 
       <div class="grid">
         <div class="card">
-          <h3>📦 Download</h3>
+          <h3>📥 Instalação</h3>
           <ul>
-            <li><a href="https://github.com/aaaiiicerol/zekflix/releases/latest" target="_blank" rel="noopener">Última release (AppImage)</a></li>
-            <li>Linux: <code class="mono">chmod +x zekflix-*.AppImage && ./zekflix-*.AppImage</code></li>
-            <li>Windows: installer <code class="mono">.exe</code> e portable disponíveis</li>
+            <li><a href="https://github.com/aaaiiicerol/zekflix/releases/latest" target="_blank" rel="noopener">Ver última release</a></li>
+            <li>Linux: AppImage (<code class="mono">chmod +x ZekFlix-*.AppImage</code>) + instalar o <code class="mono">mpv</code></li>
+            <li>Windows: instalador <code class="mono">.exe</code> ou portátil — o <strong>mpv já vem incluído</strong></li>
+            <li>Mint/Ubuntu, se a AppImage não abrir: <code class="mono">sudo apt install libfuse2</code></li>
           </ul>
         </div>
         <div class="card">
@@ -94,7 +97,7 @@
           <ul>
             <li><a href="https://github.com/aaaiiicerol/zekflix" target="_blank" rel="noopener">Repositório no GitHub</a></li>
             <li><a href="https://github.com/aaaiiicerol/zekflix/issues" target="_blank" rel="noopener">Reportar bug / Sugerir feature</a></li>
-            <li><a href="https://github.com/aaaiiicerol/zekflix/blob/main/LICENSE" target="_blank" rel="noopener">Licença MIT</a></li>
+            <li>Toca quase tudo: mp4, mkv, avi, mov, webm, ts…</li>
           </ul>
         </div>
       </div>
@@ -102,71 +105,35 @@
       <div class="section">
         <h2>✨ Funcionalidades</h2>
         <div class="features">
-          <div class="feature">
-            <div class="feature-icon">🎬</div>
-            <div class="feature-text">
-              <h4>Interface estilo Netflix</h4>
-              <p>Carrosséis horizontais, hero banner, categorias, continue assistindo — tudo familiar.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🤖</div>
-            <div class="feature-text">
-              <h4>Metadados automáticos</h4>
-              <p>Busca pôsteres, sinopses, elenco, avaliações via TMDB/TVDB só pelo nome do arquivo/pasta.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">📝</div>
-            <div class="feature-text">
-              <h4>Legendas integradas</h4>
-              <p>Carrega .srt/.ass/.vtt automático, suporte a múltiplas faixas, sincronização, download de legendas.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">⏯</div>
-            <div class="feature-text">
-              <h4>Continue de onde parou</h4>
-              <p>Salva posição por episódio/filme, sincroniza entre sessões, marca como assistido.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🖥</div>
-            <div class="feature-text">
-              <h4>Player nativo (mpv)</h4>
-              <p>Usa mpv por baixo — aceleração de hardware, HDR, shaders, atalhos de teclado completos.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">📦</div>
-            <div class="feature-text">
-              <h4>AppImage / Instalador</h4>
-              <p>Linux: AppImage única. Windows: instalador NSIS + portable. Auto-update via GitHub Releases.</p>
-            </div>
-          </div>
+          <div class="feature"><div class="feature-icon">📺</div><div class="feature-text"><h4>Estilo Netflix</h4><p>Grade escura, capas arredondadas e nota ★ do IMDb — sua coleção local com cara de streaming.</p></div></div>
+          <div class="feature"><div class="feature-icon">🤖</div><div class="feature-text"><h4>Metadados automáticos</h4><p>Capa, título, ano, gênero, elenco, nota e descrição <strong>no seu idioma</strong> — buscados pelo nome da pasta/arquivo (OMDb).</p></div></div>
+          <div class="feature"><div class="feature-icon">🌎</div><div class="feature-text"><h4>15 idiomas</h4><p>Escolha na primeira abertura (e troque quando quiser no ⚙). Descrições traduzidas uma vez e guardadas em cache.</p></div></div>
+          <div class="feature"><div class="feature-icon">🗂️</div><div class="feature-text"><h4>Filmes e séries por pastas</h4><p>Cada subpasta = um título. Vários arquivos = série; um arquivo = filme. Episódios em ordem natural (ep2 antes de ep10) e toca o próximo ao terminar.</p></div></div>
+          <div class="feature"><div class="feature-icon">⏱️</div><div class="feature-text"><h4>Continua de onde parou</h4><p>Lembra a posição de cada vídeo entre as sessões — perfeito pra séries.</p></div></div>
+          <div class="feature"><div class="feature-icon">⚡</div><div class="feature-text"><h4>Cache local</h4><p>Consulta o OMDb só pra títulos novos; depois abre rapidinho, sem travar a interface.</p></div></div>
+          <div class="feature"><div class="feature-icon">🔎</div><div class="feature-text"><h4>Busca</h4><p>Encontre qualquer título da biblioteca pelo nome.</p></div></div>
+          <div class="feature"><div class="feature-icon">▶️</div><div class="feature-text"><h4>Player mpv</h4><p>Usa o mpv como player: toca a grande maioria dos formatos sem instalar codecs à parte.</p></div></div>
         </div>
+      </div>
+
+      <div class="section">
+        <h2>🔑 Chave do OMDb (gratuita)</h2>
+        <p style="color:var(--fg-muted); margin-bottom:12px;">Na primeira abertura o ZekFlix pede uma **chave gratuita do OMDb** (usada só pra buscar capas e descrições). A chave fica salva só no seu computador (<code class="mono">~/.config/zekflix/config.json</code>).</p>
+        <ul style="color:var(--fg-muted); line-height:2; padding-left:20px; margin-bottom:16px;">
+          <li>Acesse <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noopener">omdbapi.com/apikey.aspx</a> → escolha <strong>FREE</strong> e confirme o e-mail.</li>
+          <li>Cole a chave no ZekFlix (⚙ → <em>Configurar chave do OMDb</em> pra trocar depois).</li>
+          <li>O plano gratuito permite 1.000 consultas por dia — mais que suficiente pra bibliotecas locais.</li>
+        </ul>
       </div>
 
       <div class="section">
         <h2>🛠 Stack técnico</h2>
         <p style="color:var(--fg-muted); margin-bottom:16px;">
-          <strong>Frontend:</strong> HTML/CSS/JS (WebView via Tauri) · <strong>Backend:</strong> Rust (tauri, serde, reqwest, sqlx) · <strong>Player:</strong> mpv (JSON IPC) · <strong>Metadados:</strong> TMDB/TVDB API · <strong>DB:</strong> SQLite (sqlx) · <strong>Distribuição:</strong> AppImage (Linux) / NSIS (Windows) · <strong>CI:</strong> GitHub Actions
+          <strong>Interface:</strong> Python 3 + <strong>PyQt6</strong> · <strong>Player:</strong> <strong>mpv</strong> (já incluso no Windows; instale no Linux) · <strong>Metadados:</strong> API <strong>OMDb</strong> (tradução e cache local em JSON) · <strong>Distribuição:</strong> AppImage (Linux) / instalador + portátil (Windows) · <strong>CI:</strong> GitHub Actions
         </p>
         <div class="btn-row">
           <a href="https://github.com/aaaiiicerol/zekflix" target="_blank" rel="noopener" class="btn btn-primary">Ver código no GitHub</a>
           <a href="https://github.com/aaaiiicerol/zekflix/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar agora</a>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>⌨️ Atalhos principais</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; color:var(--fg-muted); font-size:14px;">
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">Espaço</kbd> Play/Pause</div>
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">←/→</kbd> Avançar/Voltar 10s</div>
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">↑/↓</kbd> Volume</div>
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">F</kbd> Tela cheia</div>
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">L</kbd> Próxima legenda</div>
-          <div class="card" style="padding:16px;"><kbd class="mono" style="background:var(--bg); padding:2px 6px; border-radius:4px;">M</kbd> Mudo</div>
         </div>
       </div>
     </div>

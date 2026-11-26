@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Zek Music - Player de músicas leve para Linux e Windows onde cada pasta vira uma playlist. Feito em Rust, distribuído como AppImage.">
+  <meta name="description" content="Zek Music - Player de músicas leve para Linux e Windows onde cada pasta vira uma playlist. Feito em Rust (egui), distribuído como AppImage/.deb/.rpm.">
   <title>Zek Music • Aaaiiicerol</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#1a1b26; --bg-elevated:#24283b; --fg:#c0caf5; --fg-muted:#787c99; --accent:#7aa2f7; --accent-hover:#9ec5ff; --border:#2f334d; --card-bg:#1f2335; }
+    :root { --bg:#08060e; --bg-elevated:#150f22; --fg:#ece9f7; --fg-muted:#9a92b8; --accent:#a855f7; --accent-hover:#c084fc; --border:#2a2040; --card-bg:#100c1a; --purple:#7c3aed; }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Space Grotesk',sans-serif; background:var(--bg); color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
+    body { font-family:'Space Grotesk',sans-serif; background: radial-gradient(700px 400px at 80% -5%, rgba(168,85,247,0.20), transparent 60%), radial-gradient(600px 400px at 0% 10%, rgba(124,58,237,0.16), transparent 60%), var(--bg); background-attachment: fixed; color:var(--fg); line-height:1.7; min-height:100vh; display:flex; flex-direction:column; }
     .mono { font-family:'JetBrains Mono',monospace; }
     a { color:var(--accent); text-decoration:none; transition:color .2s; }
     a:hover { color:var(--accent-hover); }
@@ -24,6 +24,7 @@
     .badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
     .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:500; background:var(--bg-elevated); border:1px solid var(--border); color:var(--fg-muted); }
     .badge.rust { border-color:#dea584; color:#dea584; }
+    .badge.python { border-color:#a6dafc; color:#a6dafc; }
     .badge.tauri { border-color:#78dce8; color:#78dce8; }
     .badge.appimage { border-color:var(--fg-muted); color:var(--fg-muted); }
     main { flex:1; padding:48px 0; }
@@ -40,8 +41,8 @@
     .section h2::after { content:''; flex:1; height:1px; background:var(--border); }
     .btn-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
     .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:8px; font-size:14px; font-weight:600; transition:all .2s; border:1px solid transparent; }
-    .btn-primary { background:var(--accent); color:var(--bg); }
-    .btn-primary:hover { background:var(--accent-hover); }
+    .btn-primary { background:linear-gradient(135deg, var(--accent), var(--purple)); color:#fff; }
+    .btn-primary:hover { background:linear-gradient(135deg, var(--accent-hover), #a855f7); color:#fff; }
     .btn-secondary { background:transparent; border-color:var(--border); color:var(--fg); }
     .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
     .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
@@ -57,14 +58,17 @@
   <header>
     <div class="container">
       <a href="../index.html" class="back-link">← Voltar ao início</a>
-      <h1>Zek Music</h1>
-      <p class="subtitle">Player de músicas leve: cada pasta vira uma playlist</p>
+      <h1>🎵 Zek Music</h1>
+      <p class="subtitle">Player leve onde cada pasta vira uma playlist</p>
       <div class="badges">
         <span class="badge rust">Rust</span>
+        <span class="badge" style="border-color:#dea584; color:#dea584;">egui</span>
         <span class="badge appimage">AppImage</span>
+        <span class="badge">.deb</span>
+        <span class="badge">.rpm</span>
         <span class="badge">Linux</span>
         <span class="badge">Windows</span>
-        <span class="badge">MIT License</span>
+        <span class="badge">MIT</span>
       </div>
     </div>
   </header>
@@ -74,17 +78,18 @@
       <div class="hero-img">
         <picture>
           <source srcset="../assets/zek-music.webp" type="image/webp">
-          <img src="../assets/zek-music.png" alt="Zek Music - Interface do player mostrando biblioteca organizada por pastas" loading="lazy">
+          <img src="../assets/zek-music.png" alt="Zek Music - Interface mostrando playlists criadas a partir das pastas" loading="lazy">
         </picture>
       </div>
 
       <div class="grid">
         <div class="card">
-          <h3>📦 Download</h3>
+          <h3>📦 Instalação</h3>
           <ul>
-            <li><a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener">Última release (AppImage)</a></li>
-            <li>Linux: <code class="mono">chmod +x zek-music-*.AppImage && ./zek-music-*.AppImage</code></li>
-            <li>Windows: portable <code class="mono">.exe</code> disponível</li>
+            <li><a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener">Ver última release</a></li>
+            <li>Linux: AppImage, <code class="mono">.deb</code> ou <code class="mono">.rpm</code></li>
+            <li>AppImage: <code class="mono">chmod +x ZekMusic-*.AppImage && ./ZekMusic-*.AppImage</code></li>
+            <li>Windows: instalador (<code class="mono">ZekMusic-Setup.exe</code>) ou versão portátil (.zip)</li>
           </ul>
         </div>
         <div class="card">
@@ -92,7 +97,7 @@
           <ul>
             <li><a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener">Repositório no GitHub</a></li>
             <li><a href="https://github.com/aaaiiicerol/zek-music/issues" target="_blank" rel="noopener">Reportar bug / Sugerir feature</a></li>
-            <li><a href="https://github.com/aaaiiicerol/zek-music/blob/main/LICENSE" target="_blank" rel="noopener">Licença MIT</a></li>
+            <li>Formatos: <strong>MP3, FLAC, OGG, WAV, M4A, AAC</strong></li>
           </ul>
         </div>
       </div>
@@ -100,63 +105,28 @@
       <div class="section">
         <h2>✨ Funcionalidades</h2>
         <div class="features">
-          <div class="feature">
-            <div class="feature-icon">📁</div>
-            <div class="feature-text">
-              <h4>Pastas = Playlists</h4>
-              <p>Organize sua música em pastas; cada uma vira uma playlist automática — sem cadastro, sem banco de dados.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-text">
-              <h4>Leve e rápido</h4>
-              <p>Feito em Rust, inicialização instantânea, uso mínimo de RAM. Roda bem até em hardware antigo.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🎨</div>
-            <div class="feature-text">
-              <h4>Interface limpa</h4>
-              <p>Foco na música: navegação por teclado, busca rápida, capas de álbum, modo compacto.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🔧</div>
-            <div class="feature-text">
-              <h4>Zero config</h4>
-              <p>Aponta para a pasta de músicas e pronto. Suporta MP3, FLAC, OGG, M4A, WAV.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">🌙</div>
-            <div class="feature-text">
-              <h4>Tema escuro nativo</h4>
-              <p>Respeita preferência do sistema, cores suaves para sessões noturnas longas.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">📦</div>
-            <div class="feature-text">
-              <h4>AppImage única</h4>
-              <p>Um arquivo, roda em qualquer distro (Debian, Fedora, Arch, openSUSE, Ubuntu...).</p>
-            </div>
-          </div>
+          <div class="feature"><div class="feature-icon">📁</div><div class="feature-text"><h4>Pastas = playlists</h4><p>Cada pasta com músicas vira uma playlist com o nome da pasta. Sem importar nada, sem banco de dados.</p></div></div>
+          <div class="feature"><div class="feature-icon">💾</div><div class="feature-text"><h4>Não perde playlists</h4><p>Se o disco não estiver montado ao abrir, o programa guarda tudo e avisa "pasta indisponível" — e volta sozinho quando montar.</p></div></div>
+          <div class="feature"><div class="feature-icon">🔢</div><div class="feature-text"><h4>Ordem que faz sentido</h4><p>"2 - música" vem antes de "10 - música"; segue a numeração das tags do álbum quando existir.</p></div></div>
+          <div class="feature"><div class="feature-icon">🔄</div><div class="feature-text"><h4>Biblioteca viva</h4><p>A pasta é monitorada: adicionou ou removeu um arquivo, o player atualiza sozinho.</p></div></div>
+          <div class="feature"><div class="feature-icon">✏️</div><div class="feature-text"><h4>Organize do seu jeito</h4><p>Renomeie playlists (duplo clique), arraste para reordenar, crie playlists personalizadas e arraste arquivos para a janela.</p></div></div>
+          <div class="feature"><div class="feature-icon">⏯</div><div class="feature-text"><h4>Continua de onde parou</h4><p>Ao abrir, volta para a última playlist, música e posição — e lembra volume, aleatório e repetir.</p></div></div>
+          <div class="feature"><div class="feature-icon">🖼️</div><div class="feature-text"><h4>Capas e tags</h4><p>Capa do álbum, artista e duração lidos das tags, decodificados em segundo plano (trocar de música não engasga).</p></div></div>
+          <div class="feature"><div class="feature-icon">🎨</div><div class="feature-text"><h4>Visual e cor de destaque</h4><p>Tema escuro moderno, 8 cores de destaque (ou uma cor sua) e tela "Tocando agora" com degradê na cor da capa.</p></div></div>
+          <div class="feature"><div class="feature-icon">⌨️</div><div class="feature-text"><h4>Teclas de mídia (MPRIS)</h4><p>Play/pause, próxima e anterior do teclado funcionam mesmo com o app em segundo plano ou dentro de um jogo.</p></div></div>
+          <div class="feature"><div class="feature-icon">🔔</div><div class="feature-text"><h4>Aviso de atualização</h4><p>Consulta o GitHub 1x por dia e avisa quando sair release nova. Erros ficam registrados em <code class="mono">zek-music.log</code>.</p></div></div>
+          <div class="feature"><div class="feature-icon">💪</div><div class="feature-text"><h4>Tolerante com arquivos</h4><p>MP3 com ID3 fora do padrão ou cortados são recuperados automaticamente.</p></div></div>
+          <div class="feature"><div class="feature-icon">💻</div><div class="feature-text"><h4>Nativo e leve</h4><p>Feito em Rust (interface egui), abre quase instantaneamente e lê a biblioteca em segundo plano.</p></div></div>
         </div>
       </div>
 
       <div class="section">
         <h2>🛠 Como funciona</h2>
-        <p style="color:var(--fg-muted); margin-bottom:16px;">O Zek Music usa <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">rodio</code> para reprodução de áudio e escaneia recursivamente a pasta escolhida, montando a biblioteca em memória. Sem indexação pesada, sem daemon rodando em background.</p>
+        <p style="color:var(--fg-muted); margin-bottom:16px;">O Zek Music é escrito em <strong>Rust</strong> com interface em <code class="mono" style="background:var(--bg-elevated); padding:2px 6px; border-radius:4px;">egui</code>. Você aponta para uma pasta base e o programa varre ela recursivamente em uma thread separada (mantendo a interface sempre responsiva), montando a biblioteca em memória. A pasta é monitorada — quando você cria, renomeia ou remove arquivos, as playlists se atualizam sozinhas. A reprodução roda em thread própria, então dá pra continuar tocando mesmo com a janela minimizada ou fechando.</p>
         <div class="btn-row">
           <a href="https://github.com/aaaiiicerol/zek-music" target="_blank" rel="noopener" class="btn btn-primary">Ver código no GitHub</a>
           <a href="https://github.com/aaaiiicerol/zek-music/releases/latest" target="_blank" rel="noopener" class="btn btn-secondary">Baixar agora</a>
         </div>
-      </div>
-
-      <div class="section">
-        <h2>📸 Mais capturas</h2>
-        <p style="color:var(--fg-muted);">Adicione mais screenshots aqui conforme o projeto evolui.</p>
       </div>
     </div>
   </main>

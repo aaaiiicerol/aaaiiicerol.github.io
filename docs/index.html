@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aaaiiicerol - Vídeos de games e Linux + projetos open-source (Zek Music, ZekFlix, Zek Download, Luz do Teclado). Feito em Rust, Python e Tauri.">
+  <meta name="description" content="Aaaiiicerol - Vídeos de games e Linux + projetos open-source (Zek Music, ZekFlix, Zek Download, Luz do Teclado). Feito em Rust, Python, PyQt6 e mpv.">
   <meta name="theme-color" content="#0a0710">
   <title>Aaaiiicerol • Games, Linux & Vídeos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,10 +176,11 @@
               <div class="project-icon">🎬</div>
               <h3 style="flex:1; font-size:18px;">ZekFlix</h3>
             </div>
-            <p class="project-desc">Seus filmes e séries locais organizados em uma interface estilo Netflix. Tauri + Rust, com metadados automáticos, legendas e continuação de onde parou.</p>
+            <p class="project-desc">Seus filmes e séries locais em uma interface estilo Netflix. Feito em Python (PyQt6) com o player mpv — capa, nota ★ e descrição no seu idioma, e lembra onde você parou.</p>
             <div class="project-meta">
-              <span class="tag rust">Rust</span>
-              <span class="tag tauri">Tauri</span>
+              <span class="tag python">Python</span>
+              <span class="tag" style="border-color:#78dce8; color:#78dce8;">PyQt6</span>
+              <span class="tag" style="border-color:#666; color:#aaa;">mpv</span>
               <span class="tag appimage">AppImage</span>
               <span class="tag">Linux</span>
               <span class="tag">Windows</span>
@@ -226,11 +227,12 @@
               <div class="project-icon">💡</div>
               <h3 style="flex:1; font-size:18px;">Luz do Teclado</h3>
             </div>
-            <p class="project-desc">Liga e desliga a luz de teclados genéricos no Linux sem precisar abrir terminal. Pequeno, direto ao ponto, distribuído como AppImage.</p>
+            <p class="project-desc">Liga/desliga a luz de fundo (Scroll Lock) de teclados genéricos no Linux com dois cliques — sem terminal. Tem linha de comando (--on/--off) e sobe no boot. Em Rust.</p>
             <div class="project-meta">
-              <span class="tag python">Python</span>
-              <span class="tag qt">Qt</span>
+              <span class="tag rust">Rust</span>
               <span class="tag appimage">AppImage</span>
+              <span class="tag">.deb</span>
+              <span class="tag">.rpm</span>
               <span class="tag">Linux</span>
             </div>
             <div class="project-links">
@@ -256,10 +258,8 @@
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
         <span class="tag rust">Rust</span>
         <span class="tag python">Python</span>
-        <span class="tag">Bash</span>
-        <span class="tag tauri">Tauri</span>
-        <span class="tag qt">Qt/QML</span>
-        <span class="tag">GTK</span>
+        <span class="tag" style="border-color:#78dce8; color:#78dce8;">PyQt6</span>
+        <span class="tag" style="border-color:#dea584; color:#dea584;">egui</span>
         <span class="tag" style="border-color:#ff0000; color:#ff6666;">yt-dlp</span>
         <span class="tag" style="border-color:#00d9e2; color:#00d9e2;">ffmpeg</span>
         <span class="tag" style="border-color:#666; color:#999;">mpv</span>
